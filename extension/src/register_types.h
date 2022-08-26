@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef SUMMATOR_REGISTER_TYPES_H
-#define SUMMATOR_REGISTER_TYPES_H
+#ifndef SENTRYSDK_REGISTER_TYPES_H
+#define SENTRYSDK_REGISTER_TYPES_H
 
-void register_summator_types();
-void unregister_summator_types();
+void register_sentrysdk_types();
+void terminate_sentrysdk_types();
 
-#endif // SUMMATOR_REGISTER_TYPES_H
+#endif // SENTRYSDK_REGISTER_TYPES_H

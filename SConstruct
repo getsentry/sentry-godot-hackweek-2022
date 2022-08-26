@@ -26,6 +26,8 @@ SOFTWARE.
 #!/usr/bin/env python
 import os
 import sys
+import platform
+import subprocess
 
 env = SConscript("godot-cpp/SConstruct")
 
@@ -41,16 +43,23 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["extension/src/"])
 sources = Glob("extension/src/*.cpp")
 
+env.Append(CPPPATH=["extension/src/thirdparty/include"])
+env.Append(LIBPATH=["/Users/bitfox/Workspace/GodotSentry/extension/src/thirdparty/lib/"])
+env.Append(LIBS=["libsentry.dylib"])
+
+# TODO: Should be removed/not necessary in the first place
+env.Append(LINKFLAGS=['-Wl,-rpath,/Users/bitfox/Workspace/GodotSentry/extension/src/thirdparty/lib'])
+
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "game/bin/summator/libgdsummator.{}.{}.framework/libgdsummator.{}.{}".format(
+        "sample/bin/sentrysdk/libsentrysdk.{}.{}.framework/libsentrysdk.{}.{}".format(
             env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        "game/bin/summator/libgdsummator.{}.{}.{}{}".format(
+        "sample/bin/sentrysdk/libsentrysdk.{}.{}.{}{}".format(
             env["platform"], env["target"], env["arch_suffix"], env["SHLIBSUFFIX"]
         ),
         source=sources,

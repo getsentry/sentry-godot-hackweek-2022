@@ -23,25 +23,34 @@ SOFTWARE.
 */
 
 #include "register_types.h"
-#include "summator.h"
+#include "sentrysdk.h"
 #include <godot/gdnative_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
+#include <godot_cpp/classes/engine.hpp>
 
 using namespace godot;
 
-void initialize_summator_types(ModuleInitializationLevel p_level)
+// static SentrySdk *sentrySdk;
+
+void initialize_sentrysdk_types(ModuleInitializationLevel p_level)
 {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
+	{
+		ClassDB::register_class<SentrySdk>();
+
+		// sentrySdk = memnew(SentrySdk);
+		// Engine::get_singleton()->register_singleton("SentrySdk", SentrySdk::get_singleton());
 	}
-	ClassDB::register_class<Summator>();
 }
 
-void uninitialize_summator_types(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+void terminate_sentrysdk_types(ModuleInitializationLevel p_level)
+{
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
+	{
+		// Engine::get_singleton()->unregister_singleton("SentrySdk");
+		// memdelete(sentrySdk);
 	}
 }
 
@@ -50,12 +59,12 @@ extern "C"
 
 	// Initialization.
 
-	GDNativeBool GDN_EXPORT summator_library_init(const GDNativeInterface *p_interface, const GDNativeExtensionClassLibraryPtr p_library, GDNativeInitialization *r_initialization)
+	GDNativeBool GDN_EXPORT sentrysdk_library_init(const GDNativeInterface *p_interface, const GDNativeExtensionClassLibraryPtr p_library, GDNativeInitialization *r_initialization)
 	{
 		GDExtensionBinding::InitObject init_obj(p_interface, p_library, r_initialization);
 
-		init_obj.register_initializer(initialize_summator_types);
-		init_obj.register_terminator(uninitialize_summator_types);
+		init_obj.register_initializer(initialize_sentrysdk_types);
+		init_obj.register_terminator(terminate_sentrysdk_types);
 		init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_SCENE);
 
 		return init_obj.init();
